@@ -6,6 +6,10 @@ package com.ido.example.codec;
  */
 
 public class ProtoMsg {
+    public static byte MSG = 1;
+    public static byte AUTH_REQ = 0;
+    public static byte AUTH_RSP_SUCCESS = 2;
+    public static byte AUTH_RSP_FAILED = 3;
     public byte type;
     public byte[] data;
 

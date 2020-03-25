@@ -2,6 +2,7 @@ package com.ido.netty;
 
 import com.ido.example.codec.ProtoDecoder;
 import com.ido.example.codec.ProtoEncoder;
+import com.ido.netty.handler.AuthRspHandler;
 import com.ido.netty.handler.GetEHandler;
 import com.ido.netty.handler.InHandler;
 import io.netty.bootstrap.Bootstrap;
@@ -11,10 +12,8 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpObjectAggregator;
-import io.netty.handler.codec.http.HttpServerCodec;
 
 /**
  * @author Carl
@@ -41,6 +40,7 @@ public class Server {
                             pipeline
                                     .addLast(new ProtoDecoder())
                                     .addLast(new ProtoEncoder())
+                                    .addLast(new AuthRspHandler())
                                     .addLast(bizGroup, new InHandler());
                         }
                     });

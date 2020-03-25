@@ -32,11 +32,11 @@ public class InHandler extends SimpleChannelInboundHandler<ProtoMsg> {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         super.channelActive(ctx);
-        ProtoMsg msg = new ProtoMsg();
-        int i = random.nextInt(10);
-        msg.type = 1;
-        msg.data = randMsg.get(i).getBytes();
-        ctx.writeAndFlush(msg);
+//        ProtoMsg msg = new ProtoMsg();
+//        int i = random.nextInt(10);
+//        msg.type = 1;
+//        msg.data = randMsg.get(i).getBytes();
+//        ctx.writeAndFlush(msg);
 
 
     }

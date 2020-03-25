@@ -2,6 +2,7 @@ package com.ido.netty;
 
 import com.ido.example.codec.ProtoDecoder;
 import com.ido.example.codec.ProtoEncoder;
+import com.ido.netty.handler.AuthReqHandler;
 import com.ido.netty.handler.InHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -34,6 +35,7 @@ public class Client {
                             pipeline
                                     .addLast(new ProtoDecoder())
                                     .addLast(new ProtoEncoder())
+                                    .addLast(new AuthReqHandler())
                                     .addLast(new InHandler());
                         }
                     });
