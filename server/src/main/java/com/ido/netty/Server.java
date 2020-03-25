@@ -1,5 +1,7 @@
 package com.ido.netty;
 
+import com.ido.example.codec.ProtoDecoder;
+import com.ido.example.codec.ProtoEncoder;
 import com.ido.netty.handler.GetEHandler;
 import com.ido.netty.handler.InHandler;
 import io.netty.bootstrap.Bootstrap;
@@ -9,6 +11,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
@@ -36,9 +39,8 @@ public class Server {
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
                             pipeline
-//                                    .addLast(new HttpResponseEncoder())
-                                    .addLast(new HttpServerCodec())
-                                    .addLast(new HttpObjectAggregator(512 * 1024))
+                                    .addLast(new ProtoDecoder())
+                                    .addLast(new ProtoEncoder())
                                     .addLast(bizGroup, new InHandler());
                         }
                     });

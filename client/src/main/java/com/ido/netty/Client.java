@@ -1,5 +1,7 @@
 package com.ido.netty;
 
+import com.ido.example.codec.ProtoDecoder;
+import com.ido.example.codec.ProtoEncoder;
 import com.ido.netty.handler.InHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -30,8 +32,8 @@ public class Client {
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
                             pipeline
-                                    .addLast(new HttpClientCodec())
-                                    .addLast(new HttpObjectAggregator(512 * 1024))
+                                    .addLast(new ProtoDecoder())
+                                    .addLast(new ProtoEncoder())
                                     .addLast(new InHandler());
                         }
                     });
