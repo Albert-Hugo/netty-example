@@ -53,7 +53,6 @@ public class Client {
                         }
                     });
 
-            Thread.sleep(1000 * 60);
 
             f.channel().closeFuture().sync();
 

@@ -18,7 +18,9 @@ public class AuthReqHandler extends ChannelInboundHandlerAdapter {
         super.channelActive(ctx);
         ProtoMsg authMsg = new ProtoMsg();
         authMsg.type = AUTH_REQ;
-        authMsg.data = "".getBytes();
+        String user = "ido";
+        String psw = "666";
+        authMsg.data = (user + ":" + psw).getBytes();
         ctx.writeAndFlush(authMsg);
 
 
@@ -31,9 +33,11 @@ public class AuthReqHandler extends ChannelInboundHandlerAdapter {
 
         ProtoMsg authRsp = (ProtoMsg) msg;
 
-        if(authRsp.type == AUTH_RSP_FAILED){
+        if (authRsp.type == AUTH_RSP_FAILED) {
             System.out.println("authentication fail!!!");
         }
+
+        System.out.println("authentication success");
 
     }
 }
