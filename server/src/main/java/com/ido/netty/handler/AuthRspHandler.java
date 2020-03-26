@@ -38,7 +38,6 @@ public class AuthRspHandler extends ChannelInboundHandlerAdapter {
             }else{
                 rsp.type = AUTH_RSP_FAILED;
             }
-            rsp.data = "".getBytes();
 
             channelHandlerContext.writeAndFlush(rsp);
         }

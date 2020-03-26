@@ -23,14 +23,7 @@ public class ProtoDecoder extends LengthFieldBasedFrameDecoder {
             return null;
         }
 
-//        if (in.readableBytes() < HEADER_SIZE) {
-//            return null;
-//        }
-//
         int frameLength = in.readInt();//read how big is the data frame length
-//        if (in.readableBytes() < frameLength) {//if the readable data  ls less then a whole frame length, then read it later.
-//            return null;
-//        }
         ProtoMsg proxyMessage = new ProtoMsg();
         byte type = in.readByte();
 

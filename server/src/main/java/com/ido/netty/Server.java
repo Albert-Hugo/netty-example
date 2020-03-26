@@ -5,6 +5,7 @@ import com.ido.example.codec.ProtoEncoder;
 import com.ido.netty.handler.AuthRspHandler;
 import com.ido.netty.handler.GetEHandler;
 import com.ido.netty.handler.InHandler;
+import com.ido.netty.handler.OutHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;

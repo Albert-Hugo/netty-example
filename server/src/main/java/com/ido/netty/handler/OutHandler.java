@@ -5,6 +5,7 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOutboundHandlerAdapter;
 import io.netty.channel.ChannelPromise;
+import io.netty.channel.DefaultChannelPromise;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
@@ -20,9 +21,12 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 public class OutHandler extends ChannelOutboundHandlerAdapter {
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
-        ByteBuf result = Unpooled.copiedBuffer("hello", Charset.defaultCharset());
-        FullHttpResponse res = new DefaultFullHttpResponse(HTTP_1_1, HttpResponseStatus.OK, result);
-        ctx.writeAndFlush(res);
-
+        ChannelPromise channelPromise = new DefaultChannelPromise(ctx.channel());
+        channelPromise.addListener((future -> {
+            if(!future.isSuccess()){
+                System.out.println(future.cause().toString());
+            }
+        }));
+        super.write(ctx, msg, channelPromise);
     }
 }
