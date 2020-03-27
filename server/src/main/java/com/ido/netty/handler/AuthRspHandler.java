@@ -1,6 +1,7 @@
 package com.ido.netty.handler;
 
 import com.ido.example.codec.ProtoMsg;
+import com.ido.netty.ClientManager;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
@@ -39,7 +40,10 @@ public class AuthRspHandler extends ChannelInboundHandlerAdapter {
                     System.out.println("auth data not right!");
                     rsp.type = AUTH_RSP_FAILED;
                 } else {
+                    //登录验证成功
                     rsp.type = AUTH_RSP_SUCCESS;
+                    //保存 client 的 channel
+                    ClientManager.setClient(msg.id, channelHandlerContext.channel());
                 }
 
             } else {

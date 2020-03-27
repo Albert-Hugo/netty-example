@@ -6,6 +6,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 
 import static com.ido.example.codec.ProtoMsg.AUTH_REQ;
 import static com.ido.example.codec.ProtoMsg.AUTH_RSP_FAILED;
+import static com.ido.example.codec.ProtoMsg.CLIENT_ID;
 
 /**
  * @author Carl
@@ -20,6 +21,7 @@ public class AuthReqHandler extends ChannelInboundHandlerAdapter {
         authMsg.type = AUTH_REQ;
         String user = "ido";
         String psw = "666";
+        authMsg. id = CLIENT_ID;
         authMsg.data = (user + ":" + psw).getBytes();
         ctx.writeAndFlush(authMsg);
 

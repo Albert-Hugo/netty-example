@@ -43,11 +43,11 @@ public class InHandler extends SimpleChannelInboundHandler<ProtoMsg> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ProtoMsg msg) throws Exception {
 
-        System.out.println("client say : " + new String(msg.data, Charset.defaultCharset()));
         if(msg.type == MSG_HEART_BEAT){
             handlerHeartbeat(ctx,msg);
             return ;
         }
+        System.out.println("client say : " + new String(msg.data, Charset.defaultCharset()));
 
         ProtoMsg rsp = new ProtoMsg();
         rsp.type = 1;
