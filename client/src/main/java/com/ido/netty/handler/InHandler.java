@@ -16,8 +16,15 @@ import static com.ido.example.codec.ProtoMsg.MSG_HEART_BEAT;
  * @date 2019/12/23
  */
 public class InHandler extends SimpleChannelInboundHandler<ProtoMsg> {
-    Random random = new Random();
+    private static volatile boolean serverAlive = false;
+    private static Random random = new Random();
     private static Map<Integer, String> randMsg = new HashMap<>();
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        super.channelInactive(ctx);
+        serverAlive = false;
+    }
 
     private static class HeartbaetWorker implements Runnable {
         private ChannelHandlerContext ctx;
@@ -30,24 +37,62 @@ public class InHandler extends SimpleChannelInboundHandler<ProtoMsg> {
         @Override
         public void run() {
             while (true) {
-                long sleepTime;
-                if (retryTime >= 10) {
-                    sleepTime = 1000 * 10;
-                    //todo mark the server as down;
+                if (!serverAlive) {
+                    long sleepTime;
+                    if (retryTime >= 10) {
+                        sleepTime = 1000 * 10;
+                        //todo mark the server as down;
+                    } else {
+                        sleepTime = 1000 * (retryTime + 1);
+                    }
+                    try {
+                        Thread.sleep(sleepTime);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    retryTime++;
+                    System.out.println("retry to ping server " + retryTime + "times");
+                    ProtoMsg msg = new ProtoMsg();
+                    msg.type = MSG_HEART_BEAT;
+                    ctx.writeAndFlush(msg);
                 } else {
-                    sleepTime = 1000 * (retryTime + 1);
+
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    ProtoMsg msg = new ProtoMsg();
+                    msg.type = MSG_HEART_BEAT;
+                    ctx.writeAndFlush(msg);
                 }
+
+
+            }
+        }
+    }
+
+
+    private static class EchoWorder implements Runnable {
+        private ChannelHandlerContext ctx;
+
+        public EchoWorder(ChannelHandlerContext ctx) {
+            this.ctx = ctx;
+        }
+
+        @Override
+        public void run() {
+            while (true) {
+
+                int i = random.nextInt(10);
+                String data = randMsg.get(i);
+                ProtoMsg msg = ProtoMsg.msg(data);
+                ctx.writeAndFlush(msg);
                 try {
-                    Thread.sleep(sleepTime);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                retryTime++;
-                System.out.println("retry to ping server " + retryTime + "times");
-                ProtoMsg msg = new ProtoMsg();
-                msg.type = MSG_HEART_BEAT;
-                ctx.writeAndFlush(msg);
-
 
             }
         }
@@ -70,6 +115,7 @@ public class InHandler extends SimpleChannelInboundHandler<ProtoMsg> {
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         super.channelActive(ctx);
         new Thread(new HeartbaetWorker(ctx)).start();
+        new Thread(new EchoWorder(ctx)).start();
 
 
     }
@@ -78,6 +124,7 @@ public class InHandler extends SimpleChannelInboundHandler<ProtoMsg> {
     protected void channelRead0(ChannelHandlerContext ctx, ProtoMsg msg) throws Exception {
         if (msg.type == MSG_HEART_BEAT) {
             System.out.println("server is still alive");
+            serverAlive = true;
             return;
         }
 

@@ -53,6 +53,13 @@ public class AuthRspHandler extends ChannelInboundHandlerAdapter {
 
             channelHandlerContext.writeAndFlush(rsp);
         } else {
+
+            if (msg.type == MSG && ClientManager.getClient(msg.id) == null) {
+                //如果没有认证通过的连接，直接丢弃
+                System.out.println("client not auth  " + msg.id);
+                channelHandlerContext.close();
+                return ;
+            }
             channelHandlerContext.fireChannelRead(o);
         }
 
