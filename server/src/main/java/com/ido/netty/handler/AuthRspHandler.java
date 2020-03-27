@@ -48,7 +48,10 @@ public class AuthRspHandler extends ChannelInboundHandlerAdapter {
             }
 
             channelHandlerContext.writeAndFlush(rsp);
+        } else {
+            channelHandlerContext.fireChannelRead(o);
         }
+
 
     }
 
