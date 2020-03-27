@@ -14,14 +14,16 @@ import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author Carl
  * @date 2019/12/23
  */
 public class Client {
 
-    public static void main(String[] args) throws InterruptedException {
 
+    public void connect() throws InterruptedException {
         Bootstrap bootstrap = new Bootstrap();
         EventLoopGroup master = new NioEventLoopGroup();
         try {
@@ -59,7 +61,24 @@ public class Client {
         } finally {
             System.out.println("client shutdown");
             master.shutdownGracefully();
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        TimeUnit.SECONDS.sleep(5);
+                        new Client().connect();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+
         }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        new Client().connect();
 
 
     }
