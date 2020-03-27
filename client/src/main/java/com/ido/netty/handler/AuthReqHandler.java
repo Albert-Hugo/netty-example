@@ -37,7 +37,6 @@ public class AuthReqHandler extends ChannelInboundHandlerAdapter {
             System.out.println("authentication fail!!!");
         }
 
-        System.out.println("authentication success");
 
     }
 }

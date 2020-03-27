@@ -10,6 +10,7 @@ public class ProtoMsg {
     public static byte AUTH_REQ = 0;
     public static byte AUTH_RSP_SUCCESS = 2;
     public static byte AUTH_RSP_FAILED = 3;
+    public static byte MSG_HEART_BEAT = 4;
     public byte type;
     public byte[] data;
 

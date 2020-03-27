@@ -6,6 +6,8 @@ import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.nio.charset.Charset;
 
+import static com.ido.example.codec.ProtoMsg.MSG_HEART_BEAT;
+
 /**
  * @author Carl
  * @date 2019/12/23
@@ -42,6 +44,10 @@ public class InHandler extends SimpleChannelInboundHandler<ProtoMsg> {
     protected void channelRead0(ChannelHandlerContext ctx, ProtoMsg msg) throws Exception {
 
         System.out.println("client say : " + new String(msg.data, Charset.defaultCharset()));
+        if(msg.type == MSG_HEART_BEAT){
+            handlerHeartbeat(ctx,msg);
+            return ;
+        }
 
         ProtoMsg rsp = new ProtoMsg();
         rsp.type = 1;
@@ -49,6 +55,10 @@ public class InHandler extends SimpleChannelInboundHandler<ProtoMsg> {
         ctx.writeAndFlush(rsp);
 
 
+    }
+
+    private void handlerHeartbeat(ChannelHandlerContext ctx,ProtoMsg msg) {
+        ctx.writeAndFlush(msg);
     }
 
 }
