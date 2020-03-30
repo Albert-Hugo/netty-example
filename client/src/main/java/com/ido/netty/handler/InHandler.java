@@ -10,7 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import static com.ido.example.codec.ProtoMsg.MSG_HEART_BEAT;
+import static com.ido.example.codec.ProtoMsg.MSG_HEART_BEAT_PING;
+import static com.ido.example.codec.ProtoMsg.MSG_HEART_BEAT_PONG;
 
 /**
  * @author Carl
@@ -55,7 +56,7 @@ public class InHandler extends SimpleChannelInboundHandler<ProtoMsg> {
                     retryTime++;
                     log.info("retry to ping server " + retryTime + "times");
                     ProtoMsg msg = new ProtoMsg();
-                    msg.type = MSG_HEART_BEAT;
+                    msg.type = MSG_HEART_BEAT_PING;
                     ctx.writeAndFlush(msg);
                 } else {
 
@@ -65,7 +66,7 @@ public class InHandler extends SimpleChannelInboundHandler<ProtoMsg> {
                         e.printStackTrace();
                     }
                     ProtoMsg msg = new ProtoMsg();
-                    msg.type = MSG_HEART_BEAT;
+                    msg.type = MSG_HEART_BEAT_PING;
                     ctx.writeAndFlush(msg);
                 }
 
@@ -124,7 +125,7 @@ public class InHandler extends SimpleChannelInboundHandler<ProtoMsg> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ProtoMsg msg) throws Exception {
-        if (msg.type == MSG_HEART_BEAT) {
+        if (msg.type == MSG_HEART_BEAT_PONG) {
             log.info("server is still alive");
             serverAlive = true;
             return;

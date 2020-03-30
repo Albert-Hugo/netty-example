@@ -1,15 +1,14 @@
 package com.ido.netty.handler;
 
 import com.ido.example.codec.ProtoMsg;
-import com.ido.netty.ClientManager;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
 
 import java.nio.charset.Charset;
 
-import static com.ido.example.codec.ProtoMsg.MSG_HEART_BEAT;
+import static com.ido.example.codec.ProtoMsg.MSG_HEART_BEAT_PING;
+import static com.ido.example.codec.ProtoMsg.MSG_HEART_BEAT_PONG;
 
 /**
  * @author Carl
@@ -43,8 +42,9 @@ public class InHandler extends SimpleChannelInboundHandler<ProtoMsg> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ProtoMsg msg) throws Exception {
-        if (msg.type == MSG_HEART_BEAT) {
-            handlerHeartbeat(ctx, msg);
+        if (msg.type == MSG_HEART_BEAT_PING) {
+            ProtoMsg hb = ProtoMsg.heartBeatPong();
+            handlerHeartbeat(ctx, hb);
             return;
         }
         log.info("client say : " + new String(msg.data, Charset.defaultCharset()));
