@@ -13,6 +13,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.TimeUnit;
 
@@ -20,6 +21,7 @@ import java.util.concurrent.TimeUnit;
  * @author Carl
  * @date 2019/12/23
  */
+@Slf4j
 public class Client {
 
 
@@ -59,7 +61,7 @@ public class Client {
             f.channel().closeFuture().sync();
 
         } finally {
-            System.out.println("client shutdown");
+            log.info("client shutdown");
             master.shutdownGracefully();
 
             new Thread(new Runnable() {

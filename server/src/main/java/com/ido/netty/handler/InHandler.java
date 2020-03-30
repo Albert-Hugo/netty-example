@@ -1,8 +1,11 @@
 package com.ido.netty.handler;
 
 import com.ido.example.codec.ProtoMsg;
+import com.ido.netty.ClientManager;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 
 import java.nio.charset.Charset;
 
@@ -12,16 +15,14 @@ import static com.ido.example.codec.ProtoMsg.MSG_HEART_BEAT;
  * @author Carl
  * @date 2019/12/23
  */
+@Slf4j
 public class InHandler extends SimpleChannelInboundHandler<ProtoMsg> {
-
-
     static int count;
     private ChannelHandlerContext ctx;
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("client ip: " + ctx.channel().remoteAddress());
-        ;
+        log.info("client ip: " + ctx.channel().remoteAddress());
         super.channelActive(ctx);
         this.ctx = ctx;
     }
@@ -35,19 +36,18 @@ public class InHandler extends SimpleChannelInboundHandler<ProtoMsg> {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         super.channelInactive(ctx);
-        System.out.println("client disconnect");
+        log.info("client disconnect");
         ctx.channel().disconnect();
 
     }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ProtoMsg msg) throws Exception {
-
-        if(msg.type == MSG_HEART_BEAT){
-            handlerHeartbeat(ctx,msg);
-            return ;
+        if (msg.type == MSG_HEART_BEAT) {
+            handlerHeartbeat(ctx, msg);
+            return;
         }
-        System.out.println("client say : " + new String(msg.data, Charset.defaultCharset()));
+        log.info("client say : " + new String(msg.data, Charset.defaultCharset()));
 
         ProtoMsg rsp = new ProtoMsg();
         rsp.type = 1;
@@ -57,7 +57,7 @@ public class InHandler extends SimpleChannelInboundHandler<ProtoMsg> {
 
     }
 
-    private void handlerHeartbeat(ChannelHandlerContext ctx,ProtoMsg msg) {
+    private void handlerHeartbeat(ChannelHandlerContext ctx, ProtoMsg msg) {
         ctx.writeAndFlush(msg);
     }
 

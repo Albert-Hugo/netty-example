@@ -4,6 +4,7 @@ import com.ido.example.codec.ProtoMsg;
 import com.ido.netty.ClientManager;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;
@@ -15,6 +16,7 @@ import static com.ido.example.codec.ProtoMsg.*;
  * @author Carl
  * @date 2019/12/23
  */
+@Slf4j
 public class AuthRspHandler extends ChannelInboundHandlerAdapter {
 
     private static List<String> whiteList = Arrays.asList("192.168.1.172", "127.0.0.1");
@@ -22,7 +24,7 @@ public class AuthRspHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         super.channelInactive(ctx);
-        System.out.println("client disconnect");
+        log.info("client disconnect");
 
     }
 
@@ -37,7 +39,7 @@ public class AuthRspHandler extends ChannelInboundHandlerAdapter {
             if (whiteList.contains(ip)) {
                 String[] authData = new String(msg.data, Charset.defaultCharset()).split(":");
                 if (authData.length != 2 || !authData[0].equals("ido") || !authData[1].equals("666")) {
-                    System.out.println("auth data not right!");
+                    log.info("auth data not right!");
                     rsp.type = AUTH_RSP_FAILED;
                 } else {
                     //登录验证成功
@@ -47,7 +49,7 @@ public class AuthRspHandler extends ChannelInboundHandlerAdapter {
                 }
 
             } else {
-                System.out.println("remote address " + ip + "not in white list");
+                log.info("remote address " + ip + "not in white list");
                 rsp.type = AUTH_RSP_FAILED;
             }
 
@@ -56,9 +58,9 @@ public class AuthRspHandler extends ChannelInboundHandlerAdapter {
 
             if (msg.type == MSG && ClientManager.getClient(msg.id) == null) {
                 //如果没有认证通过的连接，直接丢弃
-                System.out.println("client not auth  " + msg.id);
+                log.info("client not auth  " + msg.id);
                 channelHandlerContext.close();
-                return ;
+                return;
             }
             channelHandlerContext.fireChannelRead(o);
         }

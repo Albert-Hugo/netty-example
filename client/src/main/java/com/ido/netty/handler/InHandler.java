@@ -3,6 +3,7 @@ package com.ido.netty.handler;
 import com.ido.example.codec.ProtoMsg;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import lombok.extern.slf4j.Slf4j;
 
 import java.nio.charset.Charset;
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import static com.ido.example.codec.ProtoMsg.MSG_HEART_BEAT;
  * @author Carl
  * @date 2019/12/23
  */
+@Slf4j
 public class InHandler extends SimpleChannelInboundHandler<ProtoMsg> {
     private static volatile boolean serverAlive = false;
     private static Random random = new Random();
@@ -51,7 +53,7 @@ public class InHandler extends SimpleChannelInboundHandler<ProtoMsg> {
                         e.printStackTrace();
                     }
                     retryTime++;
-                    System.out.println("retry to ping server " + retryTime + "times");
+                    log.info("retry to ping server " + retryTime + "times");
                     ProtoMsg msg = new ProtoMsg();
                     msg.type = MSG_HEART_BEAT;
                     ctx.writeAndFlush(msg);
@@ -123,12 +125,12 @@ public class InHandler extends SimpleChannelInboundHandler<ProtoMsg> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ProtoMsg msg) throws Exception {
         if (msg.type == MSG_HEART_BEAT) {
-            System.out.println("server is still alive");
+            log.info("server is still alive");
             serverAlive = true;
             return;
         }
 
-        System.out.println(new String(msg.data, Charset.defaultCharset()));
+        log.info(new String(msg.data, Charset.defaultCharset()));
 
     }
 

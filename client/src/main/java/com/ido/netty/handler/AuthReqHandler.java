@@ -3,6 +3,7 @@ package com.ido.netty.handler;
 import com.ido.example.codec.ProtoMsg;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import lombok.extern.slf4j.Slf4j;
 
 import static com.ido.example.codec.ProtoMsg.AUTH_REQ;
 import static com.ido.example.codec.ProtoMsg.AUTH_RSP_FAILED;
@@ -12,6 +13,7 @@ import static com.ido.example.codec.ProtoMsg.CLIENT_ID;
  * @author Carl
  * @date 2019/12/23
  */
+@Slf4j
 public class AuthReqHandler extends ChannelInboundHandlerAdapter {
 
     @Override
@@ -36,7 +38,7 @@ public class AuthReqHandler extends ChannelInboundHandlerAdapter {
         ProtoMsg authRsp = (ProtoMsg) msg;
 
         if (authRsp.type == AUTH_RSP_FAILED) {
-            System.out.println("authentication fail!!!");
+            log.info("authentication fail!!!");
         }
 
 
