@@ -2,10 +2,8 @@ package com.ido.netty;
 
 import com.ido.example.codec.ProtoDecoder;
 import com.ido.example.codec.ProtoEncoder;
-import com.ido.netty.handler.AuthRspHandler;
-import com.ido.netty.handler.GetEHandler;
-import com.ido.netty.handler.InHandler;
-import com.ido.netty.handler.OutHandler;
+import com.ido.netty.handler.*;
+import com.ido.netty.proto.MyDataInfo;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -15,6 +13,10 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpObjectAggregator;
+import io.netty.handler.codec.protobuf.ProtobufDecoder;
+import io.netty.handler.codec.protobuf.ProtobufEncoder;
+import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
+import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 
 /**
  * @author Carl
@@ -39,10 +41,11 @@ public class Server {
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
                             pipeline
-                                    .addLast(new ProtoDecoder())
-                                    .addLast(new ProtoEncoder())
-                                    .addLast(new AuthRspHandler())
-                                    .addLast(bizGroup, new InHandler());
+                                    .addLast(new ProtobufVarint32FrameDecoder())
+                                    .addLast(new ProtobufDecoder(MyDataInfo.MyMessage.getDefaultInstance()))
+                                    .addLast(new ProtobufVarint32LengthFieldPrepender())
+                                    .addLast(new ProtobufEncoder())
+                                    .addLast(bizGroup, new ProtoBufHandler());
                         }
                     });
             ChannelFuture f = bootstrap.bind("127.0.0.1", 20001);

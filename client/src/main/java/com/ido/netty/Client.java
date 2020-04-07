@@ -4,6 +4,8 @@ import com.ido.example.codec.ProtoDecoder;
 import com.ido.example.codec.ProtoEncoder;
 import com.ido.netty.handler.AuthReqHandler;
 import com.ido.netty.handler.InHandler;
+import com.ido.netty.handler.ProtoBufHandler;
+import com.ido.netty.proto.MyDataInfo;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -13,6 +15,10 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
+import io.netty.handler.codec.protobuf.ProtobufDecoder;
+import io.netty.handler.codec.protobuf.ProtobufEncoder;
+import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
+import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.TimeUnit;
@@ -37,10 +43,10 @@ public class Client {
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
                             pipeline
-                                    .addLast(new ProtoDecoder())
-                                    .addLast(new ProtoEncoder())
-                                    .addLast(new AuthReqHandler())
-                                    .addLast(new InHandler());
+//                                    .addLast(new ProtoDecoder())
+                                    .addLast(new ProtobufVarint32LengthFieldPrepender())
+                                    .addLast(new ProtobufEncoder())
+                                    .addLast(new ProtoBufHandler());
                         }
                     });
             ChannelFuture f = bootstrap.connect("127.0.0.1", 20001);
