@@ -4,6 +4,8 @@ import com.ido.example.codec.ProtoMsg;
 import com.ido.netty.proto.MyDataInfo;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.handler.timeout.IdleState;
+import io.netty.handler.timeout.IdleStateEvent;
 import lombok.extern.slf4j.Slf4j;
 
 import java.nio.charset.Charset;
@@ -25,6 +27,7 @@ public class ProtoBufHandler extends SimpleChannelInboundHandler<ProtoMsg> {
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         super.channelInactive(ctx);
     }
+
 
 
     @Override

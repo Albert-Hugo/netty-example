@@ -17,6 +17,7 @@ import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
+import io.netty.handler.timeout.IdleStateHandler;
 
 /**
  * @author Carl
@@ -41,11 +42,12 @@ public class Server {
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
                             pipeline
+                                    .addLast(new IdleStateHandler(5,0,0))
                                     .addLast(new ProtobufVarint32FrameDecoder())
                                     .addLast(new ProtobufDecoder(MyDataInfo.MyMessage.getDefaultInstance()))
                                     .addLast(new ProtobufVarint32LengthFieldPrepender())
                                     .addLast(new ProtobufEncoder())
-                                    .addLast(bizGroup, new ProtoBufHandler());
+                                    .addLast( bizGroup,new ProtoBufHandler());
                         }
                     });
             ChannelFuture f = bootstrap.bind("127.0.0.1", 20001);
