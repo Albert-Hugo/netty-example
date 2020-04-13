@@ -39,10 +39,10 @@ public class Server {
 //                                    .addLast(new HttpResponseEncoder())
                                     .addLast(new HttpServerCodec())
                                     .addLast(new HttpObjectAggregator(512 * 1024))
-                                    .addLast(bizGroup, new InHandler());
+                                    .addLast(new InHandler());
                         }
                     });
-            ChannelFuture f = bootstrap.bind("127.0.0.1", 20001);
+            ChannelFuture f = bootstrap.bind("127.0.0.1", 20000);
 
             f
                     .addListener(new ChannelFutureListener() {

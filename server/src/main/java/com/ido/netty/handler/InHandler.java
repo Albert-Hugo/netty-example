@@ -15,6 +15,7 @@ import io.netty.handler.codec.http.HttpHeaders;
 import java.io.File;
 import java.net.URI;
 import java.nio.charset.Charset;
+import java.util.concurrent.TimeUnit;
 
 import static io.netty.handler.codec.http.HttpHeaders.Names.CONNECTION;
 import static io.netty.handler.codec.http.HttpHeaders.Names.CONTENT_LENGTH;
@@ -51,7 +52,7 @@ public class InHandler extends SimpleChannelInboundHandler implements ClientCall
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         super.channelInactive(ctx);
         System.out.println("client disconnect");
-        ctx.channel().disconnect();
+//        ctx.channel().disconnect();
 
     }
 
@@ -63,43 +64,17 @@ public class InHandler extends SimpleChannelInboundHandler implements ClientCall
 
 
         System.out.println(((FullHttpRequest) msg).content().toString(Charset.defaultCharset()));
-        //make a request to GET E server
-        //get the channel connect to GET E server and send the request
-
-        ClientContextHolder.GET_E_CONTEXT.writeAndFlush(request);
-
-        makeGetERequest(ctx.channel(), request, (rsp) -> {
-
-
-        });
-
 
         String res = "I am OK";
         FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1,
                 OK, Unpooled.wrappedBuffer(res.getBytes("UTF-8")));
         response.headers().set(CONTENT_TYPE, "text/plain");
-        response.headers().set(CONNECTION, HttpHeaders.Values.CLOSE);
+        response.headers().set(CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
         response.headers().set(CONTENT_LENGTH,
                 response.content().readableBytes());
-//        if (request != null && HttpHeaders.isKeepAlive(request)) {
-//            response.headers().set(CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
-//        }
-//        ClientConnector connector = new GetEHandler(ctx.channel());
-//        connector.makeHttpRequest(request);
-//
-//        connector.writeHttpResult(response);
+        TimeUnit.SECONDS.sleep(1);
 
-
-        Thread.sleep(1000 * 3);
         ctx.writeAndFlush(response);
-//        future.addListener(new ChannelFutureListener() {
-//            @Override
-//            public void operationComplete(ChannelFuture future) throws Exception {
-//                if (future.isSuccess()) {
-//                    System.out.println("close sucess!!");
-//                }
-//            }
-//        });
 
     }
 
