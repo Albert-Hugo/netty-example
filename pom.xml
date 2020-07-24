@@ -12,6 +12,8 @@
         <module>client</module>
         <module>server</module>
         <module>common</module>
+        <module>http-proxy-server</module>
+        <module>http-proxy-client</module>
     </modules>
 
     <properties>

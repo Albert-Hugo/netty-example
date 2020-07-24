@@ -1,6 +1,7 @@
 package com.ido.netty.handler;
 
 import com.ido.example.codec.ProtoMsg;
+import com.ido.netty.proto.DataInfo;
 import com.ido.netty.proto.MyDataInfo;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -18,7 +19,7 @@ import static com.ido.example.codec.ProtoMsg.MSG_HEART_BEAT_PING;
  * @date 2019/12/23
  */
 @Slf4j
-public class ProtoBufHandler extends SimpleChannelInboundHandler<MyDataInfo.MyMessage> {
+public class ProtoBufHandler extends SimpleChannelInboundHandler<DataInfo.testBuf> {
     static int count;
     private ChannelHandlerContext ctx;
 
@@ -78,9 +79,6 @@ public class ProtoBufHandler extends SimpleChannelInboundHandler<MyDataInfo.MyMe
 
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, MyDataInfo.MyMessage msg) throws Exception {
-        if (msg.getDataType().equals(MyDataInfo.MyMessage.DataType.CatType)) {
-            log.info("cat type {}", msg.getCat());
-        }
+    protected void channelRead0(ChannelHandlerContext ctx, DataInfo.testBuf msg) throws Exception {
     }
 }
