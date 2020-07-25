@@ -21,23 +21,20 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
             return;
 
         }
-        byte[] d = new byte[data.readableBytes()];
-        data.getBytes(0, d);
-        String body = new String(d);
-        DataInfo.testBuf bu = DataInfo.testBuf.newBuilder().setData(body).setID(1).build();
-        ChannelFuture cf = targetChannel.writeAndFlush(bu);
-        cf.addListener(future -> {
-            if (future.isSuccess()) {
-                System.out.println(" sent to client success");
-            }
-        });
-        synchronized (targetChannel) {
 
-            targetChannel.wait();
-        }
-        String ret = ResultHolder.get(targetChannel);
-        System.out.println(ret);
-        ByteBuf r = Unpooled.copiedBuffer(ret.getBytes());
-        ctx.writeAndFlush(r);
+        ctx.channel().eventLoop().execute(()->{
+            byte[] d = new byte[data.readableBytes()];
+            data.getBytes(0, d);
+            String body = new String(d);
+            DataInfo.testBuf bu = DataInfo.testBuf.newBuilder().setData(body).setID(1).build();
+            ChannelFuture cf = targetChannel.writeAndFlush(bu);
+            ResultHolder.put(targetChannel,ctx.pipeline().channel());
+            cf.addListener(future -> {
+                if (future.isSuccess()) {
+                    System.out.println(" sent to client success");
+                }
+            });
+        });
+
     }
 }

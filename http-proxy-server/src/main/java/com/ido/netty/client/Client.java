@@ -42,7 +42,7 @@ public class Client {
                                     .addLast(new ProtobufVarint32LengthFieldPrepender())
                                     .addLast(new ProtobufEncoder())
                                     .addLast(new ProtobufDecoder(DataInfo.testBuf.getDefaultInstance()))
-                                    .addLast(new ClientHandler());
+                                    .addLast(new ClientHandler(pipeline.channel()));
                             TargetContextHolder.setMapping("/home", pipeline.channel());
                         }
                     });
