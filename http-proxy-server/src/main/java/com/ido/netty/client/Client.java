@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * client 用于连接远程proxy客户端
  * @author Carl
  * @date 2019/12/23
  */
@@ -81,9 +82,4 @@ public class Client {
         }
     }
 
-    public static void main(String[] args) throws InterruptedException {
-        new Client().connect(20000);
-
-
-    }
 }

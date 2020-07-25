@@ -8,6 +8,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
+import io.netty.handler.codec.http.HttpResponseEncoder;
 import io.netty.handler.codec.http.HttpServerCodec;
 
 import java.lang.annotation.Target;
@@ -27,6 +28,8 @@ public class HttpProxyServer {
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
                             pipeline
+//                                    .addLast(new HttpServerCodec())
+//                                    .addLast(new HttpResponseEncoder())
                                     .addLast(new ServerHandler());
 
                         }
