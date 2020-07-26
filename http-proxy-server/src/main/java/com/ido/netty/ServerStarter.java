@@ -1,13 +1,13 @@
 package com.ido.netty;
 
 import com.ido.netty.client.ClientProxyConnector;
-import com.ido.netty.server.HttpProxyServer;
+import com.ido.netty.server.ProxyServer;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class App {
+public class ServerStarter {
     private static CountDownLatch countDownLatch  = new CountDownLatch(2);
 
     public static void main(String[] args) throws InterruptedException {
@@ -16,7 +16,7 @@ public class App {
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         executorService.execute(()->{
             try {
-                new HttpProxyServer().start(20001);//start http server and listening
+                new ProxyServer().start(20001);//start http server and listening
                 countDownLatch.countDown();;
             } catch (InterruptedException e) {
                 e.printStackTrace();

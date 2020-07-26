@@ -27,7 +27,7 @@ public class ClientProxyConnector {
 
     public void connect(int host) throws InterruptedException {
         Bootstrap bootstrap = new Bootstrap();
-        EventLoopGroup master = new NioEventLoopGroup();
+        EventLoopGroup master = new NioEventLoopGroup(1000);
         try {
 
             bootstrap.group(master)

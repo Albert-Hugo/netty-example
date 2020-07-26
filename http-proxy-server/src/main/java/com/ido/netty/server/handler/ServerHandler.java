@@ -32,33 +32,36 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ByteBuf data = (ByteBuf) msg;
+    public void channelRead(ChannelHandlerContext ctx, Object msg) {
+        ctx.channel().eventLoop().execute(()->{
+            ByteBuf data = (ByteBuf) msg;
 
 
-        byte[] d = new byte[data.readableBytes()];
-        data.getBytes(0, d);
-        String body = new String(d);
-        String uuid = UUID.randomUUID().toString();
-        DataInfo.Msg bu = DataInfo.Msg.newBuilder().setData(body).setID(uuid).build();
-        //获取目标客户的channel
-        Channel remoteClientProxy = ClientProxyChannelHolder.getChannel(route);
-        if (remoteClientProxy == null) {
-            return;
+            byte[] d = new byte[data.readableBytes()];
+            data.getBytes(0, d);
+            String body = new String(d);
+            String uuid = UUID.randomUUID().toString();
+            DataInfo.Msg bu = DataInfo.Msg.newBuilder().setData(body).setID(uuid).build();
+            //获取目标客户的channel
+            Channel remoteClientProxy = ClientProxyChannelHolder.getChannel(route);
+            if (remoteClientProxy == null) {
+                return;
 
-        }
-        ChannelFuture cf = remoteClientProxy.writeAndFlush(bu);
-
-        if(ResultHolder.get(uuid)==null){
-            log.info("设置target channel" + uuid);
-            ResultHolder.put(uuid,ctx.pipeline().channel());
-        }
-
-        cf.addListener(future -> {
-            if (future.isSuccess()) {
-                ReferenceCountUtil.release(msg);
             }
+            ChannelFuture cf = remoteClientProxy.writeAndFlush(bu);
+
+            if(ResultHolder.get(uuid)==null){
+                log.info("设置target channel" + uuid);
+                ResultHolder.put(uuid,ctx.pipeline().channel());
+            }
+
+            cf.addListener(future -> {
+                if (future.isSuccess()) {
+                    ReferenceCountUtil.release(msg);
+                }
+            });
         });
+
 
 
 

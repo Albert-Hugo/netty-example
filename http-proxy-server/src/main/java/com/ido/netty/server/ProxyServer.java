@@ -9,7 +9,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class HttpProxyServer {
+public class ProxyServer {
 
     public void start(int port) throws InterruptedException {
         ServerBootstrap bootstrap = new ServerBootstrap();

@@ -25,14 +25,15 @@ public class ClientHandler extends SimpleChannelInboundHandler<DataInfo.Msg> {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, DataInfo.Msg msg) throws Exception {
         // 将这里的结果返回到 proxy server里面
-        log.debug("proxy channel "+ channelHandlerContext.channel().id().asShortText());
-        ByteBuf r = Unpooled.copiedBuffer(msg.getData().getBytes());
-        Channel channel = ResultHolder.get(msg.getID());
-        channel.writeAndFlush(r);
+        channelHandlerContext.channel().eventLoop().execute(()->{
 
-        ReferenceCountUtil.release(msg);
-        channel.close();
-        log.debug("write result to target client"+count.incrementAndGet());
+            ByteBuf r = Unpooled.copiedBuffer(msg.getData().getBytes());
+            Channel channel = ResultHolder.get(msg.getID());
+            channel.writeAndFlush(r);
+
+            ReferenceCountUtil.release(msg);
+            channel.close();
+        });
 
     }
 }
