@@ -1,4 +1,4 @@
-package com.ido.netty.handler;
+package com.ido.netty.server.handler;
 
 import com.ido.example.codec.ProtoMsg;
 import io.netty.channel.ChannelHandlerContext;
@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import java.nio.charset.Charset;
 
 import static com.ido.example.codec.ProtoMsg.MSG_HEART_BEAT_PING;
-import static com.ido.example.codec.ProtoMsg.MSG_HEART_BEAT_PONG;
 
 /**
  * @author Carl

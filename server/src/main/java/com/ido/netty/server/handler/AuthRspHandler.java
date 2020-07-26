@@ -1,4 +1,4 @@
-package com.ido.netty.handler;
+package com.ido.netty.server.handler;
 
 import com.ido.example.codec.ProtoMsg;
 import com.ido.netty.ClientManager;

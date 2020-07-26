@@ -1,6 +1,7 @@
 package com.ido.netty;
 
 import com.ido.netty.client.ClientProxyConnector;
+import com.ido.netty.server.HttpProxyServer;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;

@@ -1,8 +1,6 @@
-package com.ido.netty.handler;
+package com.ido.netty.server.handler;
 
 import com.ido.example.codec.ProtoMsg;
-import com.ido.netty.proto.DataInfo;
-import com.ido.netty.proto.MyDataInfo;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -11,10 +9,6 @@ import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import java.nio.charset.Charset;
-
-import static com.ido.example.codec.ProtoMsg.MSG_HEART_BEAT_PING;
 
 /**
  * @author Carl

@@ -1,4 +1,4 @@
-package com.ido.netty.handler;
+package com.ido.netty.server.handler;
 
 import com.ido.netty.proto.DataInfo;
 import io.netty.channel.ChannelHandlerContext;
@@ -12,9 +12,9 @@ import java.net.Socket;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * 将protobuf 转化为http raw request
+ * 数据透传
  */
-public class ProtoToHttpRequestHandler extends ChannelInboundHandlerAdapter {
+public class RequestHandler extends ChannelInboundHandlerAdapter {
     private static AtomicInteger count = new AtomicInteger(0);
 
     @Override

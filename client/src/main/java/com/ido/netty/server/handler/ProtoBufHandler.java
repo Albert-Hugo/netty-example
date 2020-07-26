@@ -1,19 +1,13 @@
-package com.ido.netty.handler;
+package com.ido.netty.server.handler;
 
 import com.ido.example.codec.ProtoMsg;
 import com.ido.netty.proto.MyDataInfo;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.handler.timeout.IdleState;
-import io.netty.handler.timeout.IdleStateEvent;
 import lombok.extern.slf4j.Slf4j;
 
 import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
 
-import static com.ido.example.codec.ProtoMsg.MSG_HEART_BEAT_PING;
 import static com.ido.example.codec.ProtoMsg.MSG_HEART_BEAT_PONG;
 
 /**

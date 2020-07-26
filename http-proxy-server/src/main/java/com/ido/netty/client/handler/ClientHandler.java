@@ -8,29 +8,31 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.ReferenceCountUtil;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Slf4j
 public class ClientHandler extends SimpleChannelInboundHandler<DataInfo.Msg> {
     private static AtomicInteger count = new AtomicInteger(0);
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         super.channelActive(ctx);
-        System.out.println("connect to remote proxy client");
+        log.debug("connect to remote proxy client");
     }
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, DataInfo.Msg msg) throws Exception {
         // 将这里的结果返回到 proxy server里面
-        System.out.println("proxy channel "+ channelHandlerContext.channel().id().asShortText());
+        log.debug("proxy channel "+ channelHandlerContext.channel().id().asShortText());
         ByteBuf r = Unpooled.copiedBuffer(msg.getData().getBytes());
         Channel channel = ResultHolder.get(msg.getID());
         channel.writeAndFlush(r);
 
         ReferenceCountUtil.release(msg);
         channel.close();
-        System.out.println("write result to target client"+count.incrementAndGet());
+        log.debug("write result to target client"+count.incrementAndGet());
 
     }
 }

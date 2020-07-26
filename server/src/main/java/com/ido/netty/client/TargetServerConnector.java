@@ -1,8 +1,7 @@
 package com.ido.netty.client;
 
-import com.ido.netty.handler.InHandler;
+import com.ido.netty.server.handler.InHandler;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;

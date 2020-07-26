@@ -1,25 +1,24 @@
-package com.ido.netty;
+package com.ido.netty.server;
 
-import com.ido.netty.handler.HttpHandler;
-import com.ido.netty.handler.ProtoToHttpRequestHandler;
 import com.ido.netty.proto.DataInfo;
+import com.ido.netty.server.handler.RequestHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.http.HttpObjectAggregator;
-import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 部署到客户本地的proxy client
  */
+@Slf4j
 public class ProxyClient {
-    public static void main(String[] args) throws InterruptedException {
+    public  void start(int port) throws InterruptedException {
 
         ServerBootstrap bootstrap = new ServerBootstrap();
         EventLoopGroup master = new NioEventLoopGroup();
@@ -37,15 +36,12 @@ public class ProxyClient {
                                     .addLast(new ProtobufVarint32LengthFieldPrepender())
                                     .addLast(new ProtobufDecoder(DataInfo.Msg.getDefaultInstance()))
                                     .addLast(new ProtobufEncoder())
-                                    .addLast(new ProtoToHttpRequestHandler())
-//                                    .addLast(new HttpRequestDecoder())
-//                                    .addLast(new HttpObjectAggregator(5 * 1024))
-//                                    .addLast(new HttpHandler())
+                                    .addLast(new RequestHandler())
 
                             ;
                         }
                     });
-            ChannelFuture f = bootstrap.bind("127.0.0.1", 20002);
+            ChannelFuture f = bootstrap.bind("127.0.0.1", port);
 
             f
                     .addListener(new ChannelFutureListener() {
@@ -54,6 +50,8 @@ public class ProxyClient {
                             if (!future.isSuccess()) {
                                 future.cause().printStackTrace();
                             }
+
+                            log.info("proxy client started and listen at" + port);
 
 
                         }

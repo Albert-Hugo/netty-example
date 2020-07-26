@@ -42,7 +42,6 @@ public class ClientProxyConnector {
                                     .addLast(new ProtobufEncoder())
                                     .addLast(new ProtobufDecoder(DataInfo.Msg.getDefaultInstance()))
                                     .addLast(new ClientHandler());
-                            System.out.println("target proxy channel "+ pipeline.channel().id().asShortText());
                             ClientProxyChannelHolder.setMapping("/home", pipeline.channel());
                         }
                     });
@@ -74,7 +73,7 @@ public class ClientProxyConnector {
                         TimeUnit.SECONDS.sleep(5);
                         new ClientProxyConnector().connect(host);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        log.info(e.getMessage(),e);
                     }
                 }
             }).start();

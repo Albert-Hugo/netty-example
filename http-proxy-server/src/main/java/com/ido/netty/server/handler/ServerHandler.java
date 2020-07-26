@@ -1,4 +1,4 @@
-package com.ido.netty.handler;
+package com.ido.netty.server.handler;
 
 import com.ido.netty.manager.ResultHolder;
 import com.ido.netty.manager.ClientProxyChannelHolder;
@@ -9,24 +9,18 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.ReferenceCountUtil;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Random;
 import java.util.UUID;
-
+@Slf4j
 public class ServerHandler extends ChannelInboundHandlerAdapter {
     private final String route = "/home";
     private static Random random = new Random();
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-//        Channel targetChannel = ClientProxyChannelHolder.getChannel(route);
-//        if (targetChannel == null) {
-//            return;
-//
-//        }
-//
-//        ResultHolder.remove(targetChannel);
-        System.out.println("移除断开的链接 "+ctx.channel().id().asLongText());
+        log.info("移除断开的链接 "+ctx.channel().id().asLongText());
         ctx.close();
     }
 
@@ -56,7 +50,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
         ChannelFuture cf = remoteClientProxy.writeAndFlush(bu);
 
         if(ResultHolder.get(uuid)==null){
-            System.out.println("设置target channel" + uuid);
+            log.info("设置target channel" + uuid);
             ResultHolder.put(uuid,ctx.pipeline().channel());
         }
 

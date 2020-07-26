@@ -1,11 +1,9 @@
-package com.ido.netty.handler;
+package com.ido.netty.server.handler;
 
-import com.ido.netty.ClientConnector;
 import com.ido.netty.client.ClientContextHolder;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 
 /**
