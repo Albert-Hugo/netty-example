@@ -9,15 +9,17 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 将protobuf 转化为http raw request
  */
 public class ProtoToHttpRequestHandler extends ChannelInboundHandlerAdapter {
+    private static AtomicInteger count = new AtomicInteger(0);
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        DataInfo.testBuf data = (DataInfo.testBuf) msg;
+        DataInfo.Msg data = (DataInfo.Msg) msg;
 
         Socket socket = new Socket("127.0.0.1", 8081);
         //获取输出流，向服务器端发送信息
@@ -44,8 +46,9 @@ public class ProtoToHttpRequestHandler extends ChannelInboundHandlerAdapter {
         pw.close();
         outputStream.close();
         socket.close();
-        DataInfo.testBuf testBuf = DataInfo.testBuf.newBuilder().setID(1).setData(sb.toString()).build();
+        DataInfo.Msg testBuf = DataInfo.Msg.newBuilder().setID(data.getID()).setData(sb.toString()).build();
         ctx.writeAndFlush(testBuf);
+        System.out.println(count.addAndGet(1));
 //        super.channelRead(ctx, Unpooled.copiedBuffer(data.getData().getBytes()));
     }
 }

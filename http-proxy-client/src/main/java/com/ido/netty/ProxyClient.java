@@ -35,7 +35,7 @@ public class ProxyClient {
                             pipeline
                                     .addLast(new ProtobufVarint32FrameDecoder())
                                     .addLast(new ProtobufVarint32LengthFieldPrepender())
-                                    .addLast(new ProtobufDecoder(DataInfo.testBuf.getDefaultInstance()))
+                                    .addLast(new ProtobufDecoder(DataInfo.Msg.getDefaultInstance()))
                                     .addLast(new ProtobufEncoder())
                                     .addLast(new ProtoToHttpRequestHandler())
 //                                    .addLast(new HttpRequestDecoder())

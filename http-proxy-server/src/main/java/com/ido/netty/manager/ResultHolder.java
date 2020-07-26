@@ -6,14 +6,14 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ResultHolder {
-    final static Map<Channel, Channel> holder = new ConcurrentHashMap<>();
+    final static Map<String, Channel> holder = new ConcurrentHashMap<>();
 
-    public static Channel get(Channel ch) {
-        return holder.get(ch);
+    public static Channel get(String sessionId) {
+        return holder.get(sessionId);
     }
 
 
-    public static void put(Channel ch, Channel result) {
-        holder.put(ch, result);
+    public static void put(String sessionId, Channel result) {
+        holder.put(sessionId, result);
     }
 }

@@ -5,7 +5,7 @@ import io.netty.channel.Channel;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class TargetContextHolder {
+public class ClientProxyChannelHolder {
     private final static Map<String, Channel> holder = new ConcurrentHashMap<>();
 
 

@@ -1,7 +1,7 @@
 package com.ido.netty.client;
 
 import com.ido.netty.client.handler.ClientHandler;
-import com.ido.netty.manager.TargetContextHolder;
+import com.ido.netty.manager.ClientProxyChannelHolder;
 import com.ido.netty.proto.DataInfo;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -12,7 +12,6 @@ import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
-import io.netty.handler.timeout.IdleStateHandler;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.TimeUnit;
@@ -23,7 +22,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2019/12/23
  */
 @Slf4j
-public class Client {
+public class ClientProxyConnector {
 
 
     public void connect(int host) throws InterruptedException {
@@ -41,9 +40,10 @@ public class Client {
                                     .addLast(new ProtobufVarint32FrameDecoder())
                                     .addLast(new ProtobufVarint32LengthFieldPrepender())
                                     .addLast(new ProtobufEncoder())
-                                    .addLast(new ProtobufDecoder(DataInfo.testBuf.getDefaultInstance()))
-                                    .addLast(new ClientHandler(pipeline.channel()));
-                            TargetContextHolder.setMapping("/home", pipeline.channel());
+                                    .addLast(new ProtobufDecoder(DataInfo.Msg.getDefaultInstance()))
+                                    .addLast(new ClientHandler());
+                            System.out.println("target proxy channel "+ pipeline.channel().id().asShortText());
+                            ClientProxyChannelHolder.setMapping("/home", pipeline.channel());
                         }
                     });
             ChannelFuture f = bootstrap.connect("127.0.0.1", host);
@@ -72,7 +72,7 @@ public class Client {
                 public void run() {
                     try {
                         TimeUnit.SECONDS.sleep(5);
-                        new Client().connect(host);
+                        new ClientProxyConnector().connect(host);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

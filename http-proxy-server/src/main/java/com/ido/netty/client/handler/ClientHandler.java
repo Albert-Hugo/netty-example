@@ -7,16 +7,12 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.handler.codec.http.*;
+import io.netty.util.ReferenceCountUtil;
 
-import java.net.URI;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class ClientHandler extends SimpleChannelInboundHandler<DataInfo.testBuf> {
-    private Channel proxyServerChannel;
-
-    public ClientHandler(Channel proxyServerChannel) {
-        this.proxyServerChannel = proxyServerChannel;
-    }
+public class ClientHandler extends SimpleChannelInboundHandler<DataInfo.Msg> {
+    private static AtomicInteger count = new AtomicInteger(0);
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -25,10 +21,16 @@ public class ClientHandler extends SimpleChannelInboundHandler<DataInfo.testBuf>
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, DataInfo.testBuf msg) throws Exception {
-        //todo 将这里的结果返回到 proxy server里面
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, DataInfo.Msg msg) throws Exception {
+        // 将这里的结果返回到 proxy server里面
+        System.out.println("proxy channel "+ channelHandlerContext.channel().id().asShortText());
         ByteBuf r = Unpooled.copiedBuffer(msg.getData().getBytes());
-        ResultHolder.get(channelHandlerContext.channel()).writeAndFlush(r);
+        Channel channel = ResultHolder.get(msg.getID());
+        channel.writeAndFlush(r);
+
+        ReferenceCountUtil.release(msg);
+        channel.close();
+        System.out.println("write result to target client"+count.incrementAndGet());
 
     }
 }

@@ -3,8 +3,10 @@ package com.ido.netty.handler;
 import com.ido.example.codec.ProtoMsg;
 import com.ido.netty.proto.DataInfo;
 import com.ido.netty.proto.MyDataInfo;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.handler.codec.http.*;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import lombok.AllArgsConstructor;
@@ -19,7 +21,7 @@ import static com.ido.example.codec.ProtoMsg.MSG_HEART_BEAT_PING;
  * @date 2019/12/23
  */
 @Slf4j
-public class ProtoBufHandler extends SimpleChannelInboundHandler<DataInfo.testBuf> {
+public class ProtoBufHandler extends SimpleChannelInboundHandler<HttpObject> {
     static int count;
     private ChannelHandlerContext ctx;
 
@@ -79,6 +81,16 @@ public class ProtoBufHandler extends SimpleChannelInboundHandler<DataInfo.testBu
 
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, DataInfo.testBuf msg) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
+        if(msg instanceof HttpRequest){
+            HttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,HttpResponseStatus.OK, Unpooled.copiedBuffer("test".getBytes()));
+            response.headers().add("content-type","text/plain");
+            response.headers().add("content-length",Unpooled.copiedBuffer("test".getBytes()).readableBytes());
+            ctx.writeAndFlush(response);
+
+
+        }
+
+
     }
 }

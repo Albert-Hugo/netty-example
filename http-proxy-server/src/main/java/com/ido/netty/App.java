@@ -1,9 +1,8 @@
 package com.ido.netty;
 
-import com.ido.netty.client.Client;
+import com.ido.netty.client.ClientProxyConnector;
 
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -24,7 +23,7 @@ public class App {
         });
         executorService.execute(()->{
             try {
-                new Client().connect(20002);
+                new ClientProxyConnector().connect(20002);
                 countDownLatch.countDown();;
             } catch (InterruptedException e) {
                 e.printStackTrace();

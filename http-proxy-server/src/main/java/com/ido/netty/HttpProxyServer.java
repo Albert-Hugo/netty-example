@@ -1,24 +1,18 @@
 package com.ido.netty;
 
 import com.ido.netty.handler.ServerHandler;
-import com.ido.netty.manager.TargetContextHolder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.http.HttpObjectAggregator;
-import io.netty.handler.codec.http.HttpResponseEncoder;
-import io.netty.handler.codec.http.HttpServerCodec;
-
-import java.lang.annotation.Target;
 
 public class HttpProxyServer {
 
     public void start(int host) throws InterruptedException {
         ServerBootstrap bootstrap = new ServerBootstrap();
-        EventLoopGroup master = new NioEventLoopGroup();
-        EventLoopGroup worker = new NioEventLoopGroup();
+        EventLoopGroup master = new NioEventLoopGroup(100);
+        EventLoopGroup worker = new NioEventLoopGroup(1000);
         try {
 
             bootstrap.group(master, worker)

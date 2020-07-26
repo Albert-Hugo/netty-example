@@ -14,51 +14,48 @@ public final class DataInfo {
     registerAllExtensions(
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
-  public interface testBufOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:protobuf.testBuf)
+  public interface MsgOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:protobuf.Msg)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required int32 ID = 1;</code>
-     * @return Whether the iD field is set.
-     */
-    boolean hasID();
-    /**
-     * <code>required int32 ID = 1;</code>
+     * <code>string ID = 1;</code>
      * @return The iD.
      */
-    int getID();
+    String getID();
+    /**
+     * <code>string ID = 1;</code>
+     * @return The bytes for iD.
+     */
+    com.google.protobuf.ByteString
+        getIDBytes();
 
     /**
-     * <code>required string Data = 2;</code>
-     * @return Whether the data field is set.
-     */
-    boolean hasData();
-    /**
-     * <code>required string Data = 2;</code>
+     * <code>string Data = 2;</code>
      * @return The data.
      */
     String getData();
     /**
-     * <code>required string Data = 2;</code>
+     * <code>string Data = 2;</code>
      * @return The bytes for data.
      */
     com.google.protobuf.ByteString
         getDataBytes();
   }
   /**
-   * Protobuf type {@code protobuf.testBuf}
+   * Protobuf type {@code protobuf.Msg}
    */
-  public static final class testBuf extends
+  public static final class Msg extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:protobuf.testBuf)
-      testBufOrBuilder {
+      // @@protoc_insertion_point(message_implements:protobuf.Msg)
+      MsgOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use testBuf.newBuilder() to construct.
-    private testBuf(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use Msg.newBuilder() to construct.
+    private Msg(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private testBuf() {
+    private Msg() {
+      iD_ = "";
       data_ = "";
     }
 
@@ -66,7 +63,7 @@ public final class DataInfo {
     @SuppressWarnings({"unused"})
     protected Object newInstance(
         UnusedPrivateParameter unused) {
-      return new testBuf();
+      return new Msg();
     }
 
     @Override
@@ -74,7 +71,7 @@ public final class DataInfo {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private testBuf(
+    private Msg(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -82,7 +79,6 @@ public final class DataInfo {
       if (extensionRegistry == null) {
         throw new NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -93,15 +89,16 @@ public final class DataInfo {
             case 0:
               done = true;
               break;
-            case 8: {
-              bitField0_ |= 0x00000001;
-              iD_ = input.readInt32();
+            case 10: {
+              String s = input.readStringRequireUtf8();
+
+              iD_ = s;
               break;
             }
             case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000002;
-              data_ = bs;
+              String s = input.readStringRequireUtf8();
+
+              data_ = s;
               break;
             }
             default: {
@@ -125,49 +122,59 @@ public final class DataInfo {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return DataInfo.internal_static_protobuf_testBuf_descriptor;
+      return DataInfo.internal_static_protobuf_Msg_descriptor;
     }
 
     @Override
     protected FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return DataInfo.internal_static_protobuf_testBuf_fieldAccessorTable
+      return DataInfo.internal_static_protobuf_Msg_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              testBuf.class, Builder.class);
+              Msg.class, Builder.class);
     }
 
-    private int bitField0_;
     public static final int ID_FIELD_NUMBER = 1;
-    private int iD_;
+    private volatile Object iD_;
     /**
-     * <code>required int32 ID = 1;</code>
-     * @return Whether the iD field is set.
-     */
-    @Override
-    public boolean hasID() {
-      return ((bitField0_ & 0x00000001) != 0);
-    }
-    /**
-     * <code>required int32 ID = 1;</code>
+     * <code>string ID = 1;</code>
      * @return The iD.
      */
     @Override
-    public int getID() {
-      return iD_;
+    public String getID() {
+      Object ref = iD_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        iD_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string ID = 1;</code>
+     * @return The bytes for iD.
+     */
+    @Override
+    public com.google.protobuf.ByteString
+        getIDBytes() {
+      Object ref = iD_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (String) ref);
+        iD_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     public static final int DATA_FIELD_NUMBER = 2;
     private volatile Object data_;
     /**
-     * <code>required string Data = 2;</code>
-     * @return Whether the data field is set.
-     */
-    @Override
-    public boolean hasData() {
-      return ((bitField0_ & 0x00000002) != 0);
-    }
-    /**
-     * <code>required string Data = 2;</code>
+     * <code>string Data = 2;</code>
      * @return The data.
      */
     @Override
@@ -179,14 +186,12 @@ public final class DataInfo {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          data_ = s;
-        }
+        data_ = s;
         return s;
       }
     }
     /**
-     * <code>required string Data = 2;</code>
+     * <code>string Data = 2;</code>
      * @return The bytes for data.
      */
     @Override
@@ -211,14 +216,6 @@ public final class DataInfo {
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      if (!hasID()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasData()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -226,10 +223,10 @@ public final class DataInfo {
     @Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) != 0)) {
-        output.writeInt32(1, iD_);
+      if (!getIDBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, iD_);
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
+      if (!getDataBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, data_);
       }
       unknownFields.writeTo(output);
@@ -241,11 +238,10 @@ public final class DataInfo {
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) != 0)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, iD_);
+      if (!getIDBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, iD_);
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
+      if (!getDataBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, data_);
       }
       size += unknownFields.getSerializedSize();
@@ -258,21 +254,15 @@ public final class DataInfo {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof testBuf)) {
+      if (!(obj instanceof Msg)) {
         return super.equals(obj);
       }
-      testBuf other = (testBuf) obj;
+      Msg other = (Msg) obj;
 
-      if (hasID() != other.hasID()) return false;
-      if (hasID()) {
-        if (getID()
-            != other.getID()) return false;
-      }
-      if (hasData() != other.hasData()) return false;
-      if (hasData()) {
-        if (!getData()
-            .equals(other.getData())) return false;
-      }
+      if (!getID()
+          .equals(other.getID())) return false;
+      if (!getData()
+          .equals(other.getData())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -284,82 +274,78 @@ public final class DataInfo {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasID()) {
-        hash = (37 * hash) + ID_FIELD_NUMBER;
-        hash = (53 * hash) + getID();
-      }
-      if (hasData()) {
-        hash = (37 * hash) + DATA_FIELD_NUMBER;
-        hash = (53 * hash) + getData().hashCode();
-      }
+      hash = (37 * hash) + ID_FIELD_NUMBER;
+      hash = (53 * hash) + getID().hashCode();
+      hash = (37 * hash) + DATA_FIELD_NUMBER;
+      hash = (53 * hash) + getData().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static testBuf parseFrom(
+    public static Msg parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static testBuf parseFrom(
+    public static Msg parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static testBuf parseFrom(
+    public static Msg parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static testBuf parseFrom(
+    public static Msg parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static testBuf parseFrom(byte[] data)
+    public static Msg parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static testBuf parseFrom(
+    public static Msg parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static testBuf parseFrom(java.io.InputStream input)
+    public static Msg parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static testBuf parseFrom(
+    public static Msg parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static testBuf parseDelimitedFrom(java.io.InputStream input)
+    public static Msg parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static testBuf parseDelimitedFrom(
+    public static Msg parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static testBuf parseFrom(
+    public static Msg parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static testBuf parseFrom(
+    public static Msg parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -372,7 +358,7 @@ public final class DataInfo {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(testBuf prototype) {
+    public static Builder newBuilder(Msg prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @Override
@@ -388,26 +374,26 @@ public final class DataInfo {
       return builder;
     }
     /**
-     * Protobuf type {@code protobuf.testBuf}
+     * Protobuf type {@code protobuf.Msg}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:protobuf.testBuf)
-        testBufOrBuilder {
+        // @@protoc_insertion_point(builder_implements:protobuf.Msg)
+        MsgOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return DataInfo.internal_static_protobuf_testBuf_descriptor;
+        return DataInfo.internal_static_protobuf_Msg_descriptor;
       }
 
       @Override
       protected FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return DataInfo.internal_static_protobuf_testBuf_fieldAccessorTable
+        return DataInfo.internal_static_protobuf_Msg_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                testBuf.class, Builder.class);
+                Msg.class, Builder.class);
       }
 
-      // Construct using com.ido.netty.proto.DataInfo.testBuf.newBuilder()
+      // Construct using com.ido.netty.proto.DataInfo.Msg.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -425,27 +411,27 @@ public final class DataInfo {
       @Override
       public Builder clear() {
         super.clear();
-        iD_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
+        iD_ = "";
+
         data_ = "";
-        bitField0_ = (bitField0_ & ~0x00000002);
+
         return this;
       }
 
       @Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return DataInfo.internal_static_protobuf_testBuf_descriptor;
+        return DataInfo.internal_static_protobuf_Msg_descriptor;
       }
 
       @Override
-      public testBuf getDefaultInstanceForType() {
-        return testBuf.getDefaultInstance();
+      public Msg getDefaultInstanceForType() {
+        return Msg.getDefaultInstance();
       }
 
       @Override
-      public testBuf build() {
-        testBuf result = buildPartial();
+      public Msg build() {
+        Msg result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -453,19 +439,10 @@ public final class DataInfo {
       }
 
       @Override
-      public testBuf buildPartial() {
-        testBuf result = new testBuf(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
-          result.iD_ = iD_;
-          to_bitField0_ |= 0x00000001;
-        }
-        if (((from_bitField0_ & 0x00000002) != 0)) {
-          to_bitField0_ |= 0x00000002;
-        }
+      public Msg buildPartial() {
+        Msg result = new Msg(this);
+        result.iD_ = iD_;
         result.data_ = data_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -504,21 +481,21 @@ public final class DataInfo {
       }
       @Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof testBuf) {
-          return mergeFrom((testBuf)other);
+        if (other instanceof Msg) {
+          return mergeFrom((Msg)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(testBuf other) {
-        if (other == testBuf.getDefaultInstance()) return this;
-        if (other.hasID()) {
-          setID(other.getID());
+      public Builder mergeFrom(Msg other) {
+        if (other == Msg.getDefaultInstance()) return this;
+        if (!other.getID().isEmpty()) {
+          iD_ = other.iD_;
+          onChanged();
         }
-        if (other.hasData()) {
-          bitField0_ |= 0x00000002;
+        if (!other.getData().isEmpty()) {
           data_ = other.data_;
           onChanged();
         }
@@ -529,12 +506,6 @@ public final class DataInfo {
 
       @Override
       public final boolean isInitialized() {
-        if (!hasID()) {
-          return false;
-        }
-        if (!hasData()) {
-          return false;
-        }
         return true;
       }
 
@@ -543,11 +514,11 @@ public final class DataInfo {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        testBuf parsedMessage = null;
+        Msg parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (testBuf) e.getUnfinishedMessage();
+          parsedMessage = (Msg) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -556,57 +527,86 @@ public final class DataInfo {
         }
         return this;
       }
-      private int bitField0_;
 
-      private int iD_ ;
+      private Object iD_ = "";
       /**
-       * <code>required int32 ID = 1;</code>
-       * @return Whether the iD field is set.
-       */
-      @Override
-      public boolean hasID() {
-        return ((bitField0_ & 0x00000001) != 0);
-      }
-      /**
-       * <code>required int32 ID = 1;</code>
+       * <code>string ID = 1;</code>
        * @return The iD.
        */
-      @Override
-      public int getID() {
-        return iD_;
+      public String getID() {
+        Object ref = iD_;
+        if (!(ref instanceof String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          String s = bs.toStringUtf8();
+          iD_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
       }
       /**
-       * <code>required int32 ID = 1;</code>
+       * <code>string ID = 1;</code>
+       * @return The bytes for iD.
+       */
+      public com.google.protobuf.ByteString
+          getIDBytes() {
+        Object ref = iD_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (String) ref);
+          iD_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string ID = 1;</code>
        * @param value The iD to set.
        * @return This builder for chaining.
        */
-      public Builder setID(int value) {
-        bitField0_ |= 0x00000001;
+      public Builder setID(
+          String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
         iD_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 ID = 1;</code>
+       * <code>string ID = 1;</code>
        * @return This builder for chaining.
        */
       public Builder clearID() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        iD_ = 0;
+        
+        iD_ = getDefaultInstance().getID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string ID = 1;</code>
+       * @param value The bytes for iD to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        iD_ = value;
         onChanged();
         return this;
       }
 
       private Object data_ = "";
       /**
-       * <code>required string Data = 2;</code>
-       * @return Whether the data field is set.
-       */
-      public boolean hasData() {
-        return ((bitField0_ & 0x00000002) != 0);
-      }
-      /**
-       * <code>required string Data = 2;</code>
+       * <code>string Data = 2;</code>
        * @return The data.
        */
       public String getData() {
@@ -615,16 +615,14 @@ public final class DataInfo {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            data_ = s;
-          }
+          data_ = s;
           return s;
         } else {
           return (String) ref;
         }
       }
       /**
-       * <code>required string Data = 2;</code>
+       * <code>string Data = 2;</code>
        * @return The bytes for data.
        */
       public com.google.protobuf.ByteString
@@ -641,7 +639,7 @@ public final class DataInfo {
         }
       }
       /**
-       * <code>required string Data = 2;</code>
+       * <code>string Data = 2;</code>
        * @param value The data to set.
        * @return This builder for chaining.
        */
@@ -650,23 +648,23 @@ public final class DataInfo {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  
         data_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string Data = 2;</code>
+       * <code>string Data = 2;</code>
        * @return This builder for chaining.
        */
       public Builder clearData() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        
         data_ = getDefaultInstance().getData();
         onChanged();
         return this;
       }
       /**
-       * <code>required string Data = 2;</code>
+       * <code>string Data = 2;</code>
        * @param value The bytes for data to set.
        * @return This builder for chaining.
        */
@@ -675,7 +673,8 @@ public final class DataInfo {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  checkByteStringIsUtf8(value);
+        
         data_ = value;
         onChanged();
         return this;
@@ -693,51 +692,51 @@ public final class DataInfo {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:protobuf.testBuf)
+      // @@protoc_insertion_point(builder_scope:protobuf.Msg)
     }
 
-    // @@protoc_insertion_point(class_scope:protobuf.testBuf)
-    private static final testBuf DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:protobuf.Msg)
+    private static final Msg DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new testBuf();
+      DEFAULT_INSTANCE = new Msg();
     }
 
-    public static testBuf getDefaultInstance() {
+    public static Msg getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @Deprecated public static final com.google.protobuf.Parser<testBuf>
-        PARSER = new com.google.protobuf.AbstractParser<testBuf>() {
+    private static final com.google.protobuf.Parser<Msg>
+        PARSER = new com.google.protobuf.AbstractParser<Msg>() {
       @Override
-      public testBuf parsePartialFrom(
+      public Msg parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new testBuf(input, extensionRegistry);
+        return new Msg(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<testBuf> parser() {
+    public static com.google.protobuf.Parser<Msg> parser() {
       return PARSER;
     }
 
     @Override
-    public com.google.protobuf.Parser<testBuf> getParserForType() {
+    public com.google.protobuf.Parser<Msg> getParserForType() {
       return PARSER;
     }
 
     @Override
-    public testBuf getDefaultInstanceForType() {
+    public Msg getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_protobuf_testBuf_descriptor;
+    internal_static_protobuf_Msg_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_protobuf_testBuf_fieldAccessorTable;
+      internal_static_protobuf_Msg_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -747,19 +746,19 @@ public final class DataInfo {
       descriptor;
   static {
     String[] descriptorData = {
-      "\n\ntest.proto\022\010protobuf\"#\n\007testBuf\022\n\n\002ID\030" +
-      "\001 \002(\005\022\014\n\004Data\030\002 \002(\tB\037\n\023com.ido.netty.pro" +
-      "toB\010DataInfo"
+      "\n\ntest.proto\022\010protobuf\"\037\n\003Msg\022\n\n\002ID\030\001 \001(" +
+      "\t\022\014\n\004Data\030\002 \001(\tB\037\n\023com.ido.netty.protoB\010" +
+      "DataInfob\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         });
-    internal_static_protobuf_testBuf_descriptor =
+    internal_static_protobuf_Msg_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_protobuf_testBuf_fieldAccessorTable = new
+    internal_static_protobuf_Msg_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_protobuf_testBuf_descriptor,
+        internal_static_protobuf_Msg_descriptor,
         new String[] { "ID", "Data", });
   }
 

@@ -13,6 +13,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpObjectAggregator;
+import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
@@ -42,15 +43,11 @@ public class Server {
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
                             pipeline
-                                    .addLast(new IdleStateHandler(5,0,0))
-                                    .addLast(new ProtobufVarint32FrameDecoder())
-                                    .addLast(new ProtobufDecoder(MyDataInfo.MyMessage.getDefaultInstance()))
-                                    .addLast(new ProtobufVarint32LengthFieldPrepender())
-                                    .addLast(new ProtobufEncoder())
-                                    .addLast( bizGroup,new ProtoBufHandler());
+                                    .addLast(new HttpServerCodec())
+                                    .addLast( new ProtoBufHandler());
                         }
                     });
-            ChannelFuture f = bootstrap.bind("127.0.0.1", 20001);
+            ChannelFuture f = bootstrap.bind("127.0.0.1", 8080);
 
             f
                     .addListener(new ChannelFutureListener() {
@@ -64,21 +61,6 @@ public class Server {
                         }
                     });
 
-            getEClient.group(clintLoop)
-                    .channel(NioSocketChannel.class)
-                    .handler(new ChannelInitializer<SocketChannel>() {
-
-                        @Override
-                        protected void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline()
-                                    .addLast(new HttpClientCodec())
-                                    .addLast(new HttpObjectAggregator(512 * 1024))
-                                    .addLast(new GetEHandler())
-                            ;
-                        }
-                    });
-
-            ChannelFuture cf = getEClient.connect("127.0.0.1", 10033);
 
 
             f.channel().closeFuture().sync();
